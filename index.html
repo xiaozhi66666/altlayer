@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>渐变布局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            overflow-y: hidden;
+        }
+        /* 修改后的顶部导航栏 */
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(127.48deg, rgb(234, 244, 220) 0%, rgb(213, 233, 187) 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 0px 0px;
+            z-index: 100;
+        }
+        /* 修改后的左侧菜单 */
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            bottom: 0;
+            width: 240px;
+            background: rgb(213, 233, 187);
+            /* padding: 20px 0; */
+        }
+        /* 新增菜单项渐变 */
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: linear-gradient(127.08deg, rgb(234, 244, 220) -26.35%, rgb(213, 233, 187) 111.98%);
+            /* margin: 8px 12px; */
+            /* border-radius: 6px; */
+            height: 60px;
+        }
+        /* 第三个菜单项特殊样式 */
+        
+        .menu-item:nth-child(3) {
+            background: rgb(234, 244, 220);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .menu-item:hover {
+            opacity: 0.9;
+            /* transform: translateX(5px); */
+            font-size: 20px;
+        }
+        
+        .MuiSvgIcon-root {
+            transition: all 0.6s;
+        }
+        
+        .menu-item:hover .MuiSvgIcon-root {
+            width: 30px;
+        }
+        
+        .menu-item .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+        /* 顶部栏元素 */
+        
+        .logo {
+            height: 50px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .right-container {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+        }
+        
+        .top-box {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .text {
+            margin-left: 10px;
+            /* margin: 0px; */
+            font-family: ABCDiatypeSemiMono;
+            color: rgb(32, 39, 35);
+            font-weight: 400;
+            line-height: 20px;
+            /* position: relative; */
+            font-size: 18px;
+        }
+        
+        .top-box1 {
+            width: 234px;
+            background: linear-gradient(127.48deg, rgb(234, 244, 220) 0%, rgb(213, 233, 187) 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .top-box2 {
+            /* width: 182px; */
+            background: linear-gradient(127.48deg, rgb(234, 244, 220) 0%, rgb(213, 233, 187) 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: ABCDiatypeSemiMono;
+            color: rgb(32, 39, 35);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 0 20px;
+        }
+        
+        .f,
+        .t {
+            display: flex;
+            align-items: center;
+        }
+        
+        .f span,
+        .t span {
+            margin-left: 10px;
+        }
+        
+        .t {
+            margin-left: 10px;
+        }
+        
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+        /* 新增右侧内容区域样式 */
+        
+        .main-content {
+            margin-left: 240px;
+            /* 等于左侧菜单宽度 */
+            margin-top: 80px;
+            /* 等于顶部导航栏高度 */
+            /* padding: 20px; */
+            min-height: calc(100vh - 80px);
+            /* 至少撑满可视区域高度 */
+            background: #f5f5f5;
+            /* 可选背景色 */
+        }
+        /* 可选：添加过渡动画 */
+        
+        .main-content {
+            transition: margin-left 0.3s;
+        }
+        
+        .top {
+            display: flex;
+            align-items: center;
+            height: 216px;
+        }
+        
+        .main-content {
+            /* display: flex;
+            align-items: center; */
+        }
+        
+        .top h1 {
+            font-size: 40px;
+            line-height: 60px;
+            color: #202723;
+            font-weight: 300;
+        }
+        
+        .top .left {
+            width: 40%;
+        }
+        
+        .top .right {
+            flex: 1;
+            grid-area: 1 / 2 / 3 / 2;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(127.48deg, rgb(234, 244, 220) 0%, rgb(213, 233, 187) 100%);
+            border-bottom: 1px solid rgba(32, 39, 35, 0.09);
+            height: 100%;
+        }
+        
+        .tt1 {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .tt1 a {
+            margin: 0px;
+            font-style: inherit;
+            font-variant: inherit;
+            font-stretch: inherit;
+            line-height: inherit;
+            font-family: inherit;
+            font-optical-sizing: inherit;
+            font-size-adjust: inherit;
+            font-kerning: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 14px;
+            text-decoration: none;
+            color: rgb(32, 39, 35);
+            font-weight: 500;
+        }
+        
+        .table .head {
+            padding-left: 60px;
+            display: flex;
+            height: 56px;
+            background: rgb(213, 233, 187);
+            align-items: center;
+        }
+        
+        .table .head p {
+            width: 112px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .table .head p img {
+            margin-right: 6px;
+        }
+        
+        .tt3 {
+            text-align: center;
+            padding: 16px 0;
+        }
+        
+        .head2 {
+            background: unset !important;
+        }
+        
+        .bottom {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        /* 表格样式 */
+        
+        .vault-table {
+            /* background: white; */
+            /* border-radius: 8px; */
+            /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+            margin-top: 20px;
+        }
+        
+        .table-header {
+            display: flex;
+            padding: 16px 24px;
+            background: rgb(234, 244, 220);
+            font-weight: 500;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .table-header>div {
+            flex: 1;
+        }
+        
+        .table-body {
+            padding: 0 24px;
+        }
+        
+        .table-row {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .divider {
+            height: 1px;
+            background: rgba(32, 39, 35, 0.1);
+            margin: 0 -24px;
+        }
+        
+        .vault-col {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .apy-col,
+        .balance-col {
+            flex: 1;
+        }
+        
+        .status-col {
+            flex: 1;
+        }
+        
+        .status-active {
+            /* color: #4CAF50; */
+            /* padding: 4px 12px; */
+            /* background: rgba(76, 175, 80, 0.1); */
+            border-radius: 16px;
+        }
+        
+        .status-pending {
+            color: #FFC107;
+            padding: 4px 12px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 16px;
+        }
+        /* 底部链接 */
+        
+        .bottom-links {
+            display: flex;
+            justify-content: space-between;
+            padding: 32px 0;
+            margin-top: 40px;
+            /* border-top: 1px solid rgba(32, 39, 35, 0.1); */
+            padding: 16px 40px;
+        }
+        
+        .bottom-links a {
+            color: #202723;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+        
+        .bottom-links a:hover {
+            opacity: 0.8;
+            text-decoration: dashed !important;
+        }
+        /* Footer */
+        
+        .main-footer {
+            text-align: center;
+            padding: 24px;
+            /* background: rgba(213, 233, 187, 0.3); */
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        
+        .footer-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .footer-text a {
+            color: #202723;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .table-header {
+            background: linear-gradient(118.58deg, rgb(246, 246, 246) 0%, rgb(231, 231, 231) 100%);
+        }
+        
+        .r a:hover {
+            text-decoration: dotted !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部栏 -->
+    <header class="header">
+        <img src="./img/altLayerLogo.png" alt="Logo" class="logo">
+        <div class="right-container">
+            <div class="top-box1">
+                <div class="f">
+                    <img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt="">
+                    <span>stALT</span>
+                </div>
+                <div class="t">
+                    <img src="https://stake.altlayer.io/icons/iconReAlt.svg" alt="">
+                    <span>reALT</span>
+                </div>
+                <div class="t2" style="margin-left: 10px;">
+                    <img src="https://stake.altlayer.io/icons/iconSwap.svg" alt="" width="20" height="20">
+                </div>
+            </div>
+            <div class="top-box2">
+                <div class="f">
+                    <img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt="">
+                    <span>Ethereumv</span>
+                    <svg style="width: 18px;margin-left: 10px;" t="1748064982855" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1433" width="200" height="200">
+                    <path d="M63.9 324.3l72.8-72.8L512 626.9l375.3-375.4 72.8 72.8L512 772.5z" fill="#333333" p-id="1434"></path>
+                </svg>
+                </div>
+                <div class="t">
+                    <span>0ETH</span>
+                </div>
+                <div class="t2" style="margin-left: 10px;    display: flex;
+    align-items: center;">
+                    <img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt="">
+                    <span style="margin-left: 10px;">0xf...E393</span>
+                    <svg style="width: 18px;margin-left: 10px;" t="1748064982855" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1433" width="200" height="200">
+                        <path d="M63.9 324.3l72.8-72.8L512 626.9l375.3-375.4 72.8 72.8L512 772.5z" fill="#333333" p-id="1434"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 左侧菜单 -->
+    <aside class="sidebar">
+        <nav>
+            <ul style="list-style: none;">
+                <li class="menu-item">
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-hd3546" focusable="false" aria-hidden="true" viewBox="0 0 26 26" fill="none" height="26" width="26">
+                    <path clip-rule="evenodd"
+                        d="M13 4C13.8285 4 14.5 3.32843 14.5 2.5C14.5 1.67157 13.8285 1 13 1C12.3106 1 11.7298 1.46515 11.5543 2.09875C7.53094 2.65281 4.23491 5.48632 3.01137 9.25407L3.9538 9.59065C5.04689 6.18922 8.00517 3.62387 11.6244 3.09891C11.8556 3.62926 12.3845 4 13 4ZM9.18393 22.285C5.70266 20.9264 3.12448 17.7635 2.59874 13.9457C1.96514 13.7703 1.5 13.1894 1.5 12.5C1.5 11.6716 2.17157 11 3 11C3.82843 11 4.5 11.6716 4.5 12.5C4.5 13.1155 4.12926 13.6445 3.59889 13.8757C4.0941 17.2897 6.40494 20.1157 9.52052 21.3426L9.50002 21.4L9.18393 22.285ZM13 21C13.6156 21 14.1445 21.3708 14.3757 21.9012C17.7898 21.4059 20.6157 19.0951 21.8426 15.9795L21.9 16L22.7851 16.3161C21.4264 19.7974 18.2635 22.3756 14.4457 22.9013C14.2702 23.5349 13.6895 24 13 24C12.1716 24 11.5 23.3284 11.5 22.5C11.5 21.6716 12.1716 21 13 21ZM22.4011 11.1243C21.8708 11.3555 21.5 11.8845 21.5 12.5C21.5 13.3284 22.1716 14 23 14C23.8284 14 24.5 13.3284 24.5 12.5C24.5 11.8106 24.0349 11.2298 23.4013 11.0543C22.8472 7.03093 20.0137 3.7349 16.246 2.51137L15.9094 3.4538C19.3108 4.54688 21.8762 7.50514 22.4011 11.1243ZM12.7097 16.4042V17.5085H13.5408V16.3928C15.0436 16.2334 16 15.2315 16 14.0361C16 12.8292 15.1575 12.1917 13.8824 11.8843L13.5408 11.8046V8.93548C14.315 9.10626 14.7818 9.69829 14.8046 10.5066H15.8065C15.7723 9.18596 14.9184 8.29791 13.5408 8.12713V7H12.7097V8.10436C11.2751 8.2296 10.2619 9.11765 10.2619 10.3017C10.2619 11.4972 11.1954 12.2144 12.4137 12.5104L12.7097 12.5787V15.5958C11.6736 15.4478 11.0361 14.7192 11.0019 13.6831H10C10.0228 15.2201 11.0474 16.2562 12.7097 16.4042ZM12.6755 11.611C11.6622 11.3719 11.2751 10.9165 11.2751 10.3017C11.2751 9.49336 11.8558 9.01518 12.7097 8.91271V11.6224L12.6755 11.611ZM14.9753 14.1044C14.9753 14.8558 14.4402 15.4478 13.5408 15.5844V12.7723C14.4175 13.0114 14.9753 13.3871 14.9753 14.1044Z"
+                        fill="#202723" fill-rule="evenodd"></path>
+                </svg>
+                    <span class="text">Restake</span>
+                </li>
+                <li class="menu-item">
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-hd3546" focusable="false" aria-hidden="true" viewBox="0 0 26 26" fill="none" height="26" width="26">
+                    <path
+                        d="M12.7096 18.0086V16.9042C11.0474 16.7562 10.0227 15.7202 9.99992 14.1832H11.0018C11.036 15.2192 11.6735 15.9479 12.7096 16.0959V13.0788L12.4136 13.0105C11.1954 12.7145 10.2618 11.9972 10.2618 10.8018C10.2618 9.61771 11.2751 8.72966 12.7096 8.60443V7.50006H13.5407V8.6272C14.9183 8.79797 15.7722 9.68602 15.8064 11.0067H14.8045C14.7817 10.1984 14.3149 9.60632 13.5407 9.43554V12.3046L13.8823 12.3843C15.1574 12.6917 15.9999 13.3293 15.9999 14.5361C15.9999 15.7316 15.0436 16.7335 13.5407 16.8928V18.0086H12.7096ZM11.2751 10.8018C11.2751 11.4166 11.6622 11.872 12.6754 12.1111L12.7096 12.1225V9.41277C11.8557 9.51524 11.2751 9.99342 11.2751 10.8018ZM13.5407 16.0845C14.4402 15.9479 14.9753 15.3558 14.9753 14.6044C14.9753 13.8872 14.4174 13.5114 13.5407 13.2724V16.0845Z"
+                        fill="#202723"></path>
+                    <circle cx="21.5369" cy="21.5312" fill="#202723" r="1.39211" transform="rotate(45 21.5369 21.5312)"></circle>
+                    <circle cx="4.47441" cy="21.5312" fill="#202723" r="1.39211" transform="rotate(45 4.47441 21.5312)"></circle>
+                    <circle cx="21.5369" cy="4.46875" fill="#202723" r="1.39211" transform="rotate(45 21.5369 4.46875)"></circle>
+                    <circle cx="4.47441" cy="4.46875" fill="#202723" r="1.39211" transform="rotate(45 4.47441 4.46875)"></circle>
+                    <path clip-rule="evenodd"
+                        d="M13.3536 2.14646L13 1.79291L12.6464 2.14646L7.75294 7.03997L4.50003 3.78706L3.79292 4.49417L7.04583 7.74708L2.14645 12.6465L1.79289 13L2.14645 13.3536L7.04575 18.2529L3.79292 21.5057L4.50003 22.2128L7.75286 18.96L12.6464 23.8536L13 24.2071L13.3536 23.8536L18.2531 18.954L21.5119 22.2128L22.219 21.5057L18.9602 18.2469L23.8536 13.3536L24.2071 13L23.8536 12.6465L18.9601 7.75305L22.219 4.49416L21.5119 3.78705L18.253 7.04594L13.3536 2.14646ZM13 22.7929L3.20711 13L13 3.20712L22.7929 13L13 22.7929Z"
+                        fill="#202723" fill-rule="evenodd"></path>
+                </svg>
+                    <span class="text">Vaults</span>
+                </li>
+                <li class="menu-item">
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1xyk05z" focusable="false" aria-hidden="true" viewBox="0 0 26 26" fill="none" height="26" width="26">
+                        <path clip-rule="evenodd"
+                            d="M13 3H22V6.59998H13V3ZM13 7.59998V8V9V11.2H22V7.59998H13ZM22 12.2H13V12.6V13.6V16H22V12.2ZM12 12.2V11.2V9H3V12.6H12V12.2ZM12 8V7.59998V6.59998V3V2H13H22H23V3V6.59998V7.59998V11.2V12.2V16V17H22H13V17.2V18.2V22V23H12H3H2V22V18.2V17.2V13.6V12.6V9V8H3H12ZM12 17V17.2H3V13.6H12V16V17ZM3 22V18.2H12V22H3Z"
+                            fill="#202723" fill-rule="evenodd" ></path>
+                    </svg>
+                    <span class="text">Portfolio</span>
+                </li>
+                <li class="menu-item">
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-hd3546" focusable="false" aria-hidden="true" viewBox="0 0 28 28" height="26" width="26">
+                        <g fill="none" fill-rule="evenodd" id="页面-1" stroke="none" stroke-width="1">
+                            <g id="Staked" transform="translate(-40, -240)">
+                                <g id="cookie" transform="translate(40, 240)">
+                                    <rect height="28" id="_x3C_Transparent_Rectangle_x3E__589_" width="28" x="0" y="0"></rect>
+                                    <path
+                                        d="M14.234375,3.0625 L15.328125,3.140625 L15.09375,4.078125 C15.015625,4.390625 14.9375,4.78125 14.9375,5.09375 C14.9375,7.28125 16.65625,9 18.84375,9 C19.625,9 20.40625,8.765625 21.109375,8.296875 L22.125,9.46875 C21.8125,9.78125 21.65625,10.171875 21.65625,10.5625 C21.65625,11.578125 22.671875,12.4375 23.765625,12.046875 L24.703125,11.65625 L24.859375,12.671875 C24.9375,13.140625 24.9375,13.609375 24.9375,14 C24.9375,20.015625 20.015625,24.9375 14,24.9375 C7.984375,24.9375 3.0625,20.015625 3.0625,14 C3.0625,7.984375 7.984375,3.0625 14,3.0625 L14.234375,3.0625 Z M13.453125,4.625 C8.53125,4.9375 4.625,9 4.625,14 C4.625,19.15625 8.84375,23.375 14,23.375 C19.15625,23.375 23.375,19.15625 23.375,14 L23.375,13.6875 C21.578125,13.765625 20.09375,12.359375 20.09375,10.5625 L20.09375,10.40625 C19.703125,10.484375 19.3125,10.5625 18.84375,10.5625 C15.796875,10.5625 13.375,8.140625 13.375,5.09375 C13.375,4.9375 13.375,4.78125 13.453125,4.625 Z M14,18.6875 C14.4314725,18.6875 14.78125,19.0372775 14.78125,19.46875 C14.78125,19.9002225 14.4314725,20.25 14,20.25 C13.5685275,20.25 13.21875,19.9002225 13.21875,19.46875 C13.21875,19.0372775 13.5685275,18.6875 14,18.6875 Z M9.3125,16.34375 C10.1754449,16.34375 10.875,17.0433051 10.875,17.90625 C10.875,18.7691949 10.1754449,19.46875 9.3125,19.46875 C8.44955508,19.46875 7.75,18.7691949 7.75,17.90625 C7.75,17.0433051 8.44955508,16.34375 9.3125,16.34375 Z M19.46875,15.5625 C20.3316949,15.5625 21.03125,16.2620551 21.03125,17.125 C21.03125,17.9879449 20.3316949,18.6875 19.46875,18.6875 C18.6058051,18.6875 17.90625,17.9879449 17.90625,17.125 C17.90625,16.2620551 18.6058051,15.5625 19.46875,15.5625 Z M12.4375,12.4375 C12.8689725,12.4375 13.21875,12.7872775 13.21875,13.21875 C13.21875,13.6502225 12.8689725,14 12.4375,14 C12.0060275,14 11.65625,13.6502225 11.65625,13.21875 C11.65625,12.7872775 12.0060275,12.4375 12.4375,12.4375 Z M11.65625,7.75 C12.5191949,7.75 13.21875,8.44955508 13.21875,9.3125 C13.21875,10.1754449 12.5191949,10.875 11.65625,10.875 C10.7933051,10.875 10.09375,10.1754449 10.09375,9.3125 C10.09375,8.44955508 10.7933051,7.75 11.65625,7.75 Z M19.46875,3.84375 C20.3316949,3.84375 21.03125,4.54330508 21.03125,5.40625 C21.03125,6.26919492 20.3316949,6.96875 19.46875,6.96875 C18.6058051,6.96875 17.90625,6.26919492 17.90625,5.40625 C17.90625,4.54330508 18.6058051,3.84375 19.46875,3.84375 Z M24.15625,3.0625 C24.5877225,3.0625 24.9375,3.41227754 24.9375,3.84375 C24.9375,4.27522246 24.5877225,4.625 24.15625,4.625 C23.7247775,4.625 23.375,4.27522246 23.375,3.84375 C23.375,3.41227754 23.7247775,3.0625 24.15625,3.0625 Z"
+                                        fill="#373741" fill-rule="nonzero" id="形状结合"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="text">Rewards</span>
+                </li>
+                <li class="menu-item">
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ytveai" focusable="false" aria-hidden="true" viewBox="0 0 26 26" fill="none" height="26" width="26">
+                    <path clip-rule="evenodd"
+                        d="M23 13C23 18.5228 18.5228 23 13 23C7.47715 23 3 18.5228 3 13C3 7.47715 7.47715 3 13 3C18.5228 3 23 7.47715 23 13ZM24 13C24 19.0751 19.0751 24 13 24C6.92487 24 2 19.0751 2 13C2 6.92487 6.92487 2 13 2C19.0751 2 24 6.92487 24 13ZM13.7 7.5H12.5C11.1193 7.5 10 8.61929 10 10C10 10.1712 10.0172 10.3384 10.05 10.5H9.03544C9.01209 10.3367 9 10.1698 9 10C9 8.067 10.567 6.5 12.5 6.5H13.7C15.633 6.5 17.2 8.067 17.2 10C17.2 11.933 15.633 13.5 13.7 13.5H13.5V15.5H12.5V12.5H13H13.5H13.7C15.0807 12.5 16.2 11.3807 16.2 10C16.2 8.61929 15.0807 7.5 13.7 7.5ZM13 19.5C13.5523 19.5 14 19.0523 14 18.5C14 17.9477 13.5523 17.5 13 17.5C12.4477 17.5 12 17.9477 12 18.5C12 19.0523 12.4477 19.5 13 19.5Z"
+                        fill="#202723" fill-rule="evenodd"></path>
+                </svg>
+                    <span class="text">FAQ</span>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 右侧内容 -->
+    <main class="main-content">
+        <div class="top">
+            <div class="left" style="display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: linear-gradient(127.48deg, rgb(234, 244, 220) 0%, rgb(213, 233, 187) 100%);
+    border-bottom: 1px solid rgba(32, 39, 35, 0.09);
+    height: 100%;">
+                <div style="padding: 0px 32px;">
+                    <h1 class="t1">
+                        $66666
+                    </h1>
+                    <div class="t2" style="margin-bottom: 10px;padding-right: 0;">
+                        TOTAL STAKED BALANCE
+                    </div>
+                </div>
+                <div style="padding: 0px 32px;padding-right: 0;">
+                    <h1 class="t1" style="border-top: 1px solid #ccc;">
+                        10.9%
+                    </h1>
+                    <div class="t2">
+                        PORTFOLIO EST.APY
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="tt1">
+                    <div class="l" style="        font-size: 26px;
+        line-height: 36px;">
+                        Restaking
+                    </div>
+                    <div class="r">
+                        <a href="" style=" text-decoration: dotted !important;">View ETH balance on Eigenlayer</a> <span>
+                            <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-109hjin" focusable="false" aria-hidden="true"
+                                viewBox="0 0 14 14" height="14" width="14">
+                                <path d="M2.6001 10.4L11.6001 1.40002M11.6001 1.40002H2.6001M11.6001 1.40002V10.4" stroke="currentColor"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="tt2" style="padding-top: 24px;">
+                    <div class="table">
+                        <div class="head">
+                            <p></p>
+                            <p>APY</p>
+                            <p>Balance</p>
+                            <p style="margin-left: 30px;">Status</p>
+                        </div>
+                        <div class="head head2">
+                            <p><img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt=""><span>reALT</span></p>
+                            <p>10.9%</p>
+                            <p><img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt=""><span>5,726 stALT</span></p>
+                            <p style="margin-left: 30px;">Staked</p>
+                            <p style="    padding: 10px 20px;
+    border: 1px solid #000;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; margin-left: 20px;">
+                                Unstake
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="bottom">
+            <h1 style="padding-top:30px;font-weight: 300;">Vaults</h1>
+
+            <!-- 表格 -->
+            <div class="vault-table">
+                <!-- 表头 -->
+                <div class="table-header">
+                    <div class="vault-col">Vault</div>
+                    <div class="apy-col">APY</div>
+                    <div class="balance-col">Balance</div>
+                    <div class="status-col">Status</div>
+                </div>
+
+                <!-- 表格数据 -->
+                <div class="table-body">
+                    <!-- 第一条数据 -->
+                    <div class="table-row">
+                        <div class="vault-col">
+                            <img src="https://stake.altlayer.io/icons/iconDodo2.png" alt="Vault 1" width="24">
+                            <span>Xterio</span>
+                        </div>
+                        <div class="apy-col">LaunchPool</div>
+                        <div class="balance-col vault-col"> <img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt="Vault 1" width="24">5,015 reALT</div>
+                        <div class="status-col"><span class="status-active">Delegated</span></div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <!-- 第二条数据 -->
+                    <div class="table-row">
+                        <div class="vault-col">
+                            <img src="https://stake.altlayer.io/icons/iconXterio.svg" alt="Vault 1" width="24">
+                            <span>DoDochain</span>
+                        </div>
+                        <div class="apy-col">LaunchPool</div>
+                        <div class="balance-col vault-col"> <img src="https://stake.altlayer.io/icons/iconAltLayer.svg" alt="Vault 1" width="24">5,015 reALT</div>
+                        <div class="status-col"><span class="status-active">Delegated</span></div>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+            <!-- 底部链接 -->
+            <div class="bottom-links">
+                <a href="#">ALTLAYER</a>
+                <a href="#">DOCS</a>
+                <a href="#">BLOG</a>
+                <a href="#">CAREERS</a>
+                <a href="#">CONTACT</a>
+            </div>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-text">
+                    By using this product, you acknowledge having read the
+                    <a href="#">privacy policy</a> and <a href="#">legal disclaimer</a>
+                </div>
+                <div class="copyright">
+                    © 2024 by Alt Research
+                </div>
+            </footer>
+        </div>
+    </main>
+</body>
+
+</html>
